@@ -3,6 +3,7 @@ package com.citizenconnect.security;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,14 +36,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         // Skip JWT processing for auth endpoints and all OPTIONS preflight requests
         return PATH_MATCHER.match("/api/auth/**", path)
                 || HttpMethod.OPTIONS.matches(method);
-    }
-
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) {
-        String path = request.getRequestURI();
-        String method = request.getMethod();
-        
-        return path.startsWith("/api/auth/") || "OPTIONS".equalsIgnoreCase(method);
     }
 
     @Override
